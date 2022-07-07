@@ -1,0 +1,33 @@
+1. Criar um novo projeto npm:
+    
+    ```bash npm init -y```
+    
+2. Instalar as dependências, seus tipos (`@types`):
+    
+    ```bash
+    npm i express cors @types/express @types/cors
+    ```
+    
+3. Instalar a lib do Typescript e o ts-node:
+    
+    ```bash npm i -D typescript ts-node```
+    
+4. Criar o `tsconfig.json` na raiz do projeto
+    
+    ```json
+    {
+      "compilerOptions": {
+        "esModuleInterop": true,
+        "module": "es6",
+        "moduleResolution": "node",
+        "outDir": "dist"
+      },
+      "ts-node": {
+        "esm": true
+      }
+    }
+    ```
+    
+5. Na grande maioria das vezes, faremos o seguinte:
+    
+    ```bash npm i nome_lib;npm i -D @types/nome_lib```

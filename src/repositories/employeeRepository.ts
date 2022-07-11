@@ -13,6 +13,8 @@ export async function findById(id: number) {
     "SELECT * FROM employees WHERE id=$1",
     [id]
   );
-
+  if(result.rowCount === 0 ){
+    throw {code: 404, message: "employee not found"}
+  }
   return result.rows[0];
 }

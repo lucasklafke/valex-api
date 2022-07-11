@@ -13,6 +13,7 @@ function encryptNumber(number : string, cryptr : Cryptr){
         return encryptedString
 
 }
+
 function nameFormatter(fullName : string){
         const splitedName = fullName.split(" ")
         let formatedName = ""
@@ -30,13 +31,17 @@ function nameFormatter(fullName : string){
         }
         return formatedName.toUpperCase()
 }
+
 function expirationDateFormatter(date:string){
         const splitedDate = date.split("-")
         const formatedYear = Number(splitedDate[1]) + 5
         const formatedDate = `${splitedDate[0]}-${formatedYear}`
         return formatedDate
 }
-export async function createCard(key : String, id:number, type: TransactionTypes){
+
+
+
+export async function createCard(key : String, id:number, type: TransactionTypes, ){
 
         const cardAlreadyExist = await cardRepository.findByTypeAndEmployeeId(type , id)
         if(cardAlreadyExist){
@@ -48,17 +53,49 @@ export async function createCard(key : String, id:number, type: TransactionTypes
 
         const {fullName}= await employeeRepository.findById(id)
         const randomCvvNumber = faker.random.numeric(3)
-
+        console.log(randomCvvNumber)
 
         const employeeFormatedName = nameFormatter(fullName)
         const randomCardNumber = faker.random.numeric(11)
         const expirationDate = expirationDateFormatter(now)
-        const cryptedCvvNumber = encryptNumber(randomCardNumber, cryptr)
+        const cryptedCvvNumber = encryptNumber(randomCvvNumber, cryptr)
 
-        
+        const cardData = {
+                employeeId: id,
+                number: randomCardNumber,
+                cardholderName : employeeFormatedName,
+                securityCode : cryptedCvvNumber,
+                expirationDate: expirationDate,
+                password: null,
+                isVirtual:false,
+                originalCardId: null,
+                isBlocked: true,
+                type,
+        }
+        cardRepository.insert(cardData)
 
 }
 
-export async function activateCard(){
+export async function activateCard(id : number, password : string, cvv : string){
+        const cryptr = new Cryptr('myTotallySecretKey')
 
+        const card = await cardRepository.findById(id)
+        if(!card){
+                throw {code: 404, message: "card not found"}
+        }
+        console.log(card.securityCode)
+        const decryptedCvv = decryptNumber(card.securityCode, cryptr)
+        console.log("a",decryptedCvv)
+        if(decryptedCvv !== cvv){
+                throw {code: 400, message: "invalid cvv"}
+        }
+
+        const cryptedPassword = encryptNumber(password, cryptr)
+        const CardUpdateData = {
+                password: cryptedPassword,
+                isBlocked: false,       
+                
+        }
+        await cardRepository.update(id, CardUpdateData)
+        
 }

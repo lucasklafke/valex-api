@@ -1,11 +1,15 @@
 import {Router} from "express"
-import { createCard , activateCard} from "../controllers/cardController.js"
+import { createCard , activateCard, blockCard, unblockCard} from "../controllers/cardController.js"
 import  schemaValidator  from "../middlewares/schemaValidator.js"
 import { validateApiKey } from "../middlewares/validateApiKey.js"
 import { validateCardCanBeActivated } from "../middlewares/validateCardCanBeActivated.js"
-import {createCardSchema, activateCardSchema} from "../schemas/CardSchemas.js"
+import  blockOrUnblockValidator  from "../middlewares/blockOrUnblockValidator.js"
+import {createCardSchema, activateCardSchema, blockCardSchema} from "../schemas/CardSchemas.js"
+
 const cardRouter = Router()
 
 cardRouter.post("/create/card",schemaValidator(createCardSchema),validateApiKey,createCard)
-cardRouter.post("/activate/card",validateCardCanBeActivated,schemaValidator(activateCardSchema),validateApiKey,activateCard)
+cardRouter.post("/activate/card",validateCardCanBeActivated,schemaValidator(activateCardSchema),activateCard)
+cardRouter.post("/block/card",blockOrUnblockValidator("block"),schemaValidator(blockCardSchema),blockCard)
+cardRouter.post("/unblock/card",blockOrUnblockValidator("unblock"),schemaValidator(blockCardSchema),unblockCard)
 export default cardRouter

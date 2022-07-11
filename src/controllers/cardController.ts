@@ -21,3 +21,23 @@ export async function activateCard(req: Request, res: Response){
                 err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
         }
 }
+
+export async function blockCard(req: Request, res: Response){
+        const {id, password} : {id : number, password: string} = req.body
+        try{
+                await cardService.blockCard(id, password)
+                return res.status(200).send("Card blocked")
+        }catch(err){
+                err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
+        }
+}
+
+export async function unblockCard(req: Request, res: Response){
+        const {id, password} : {id : number, password: string} = req.body
+        try{
+                await cardService.unblockCard(id, password)
+                return res.status(200).send("Card unblocked")
+        }catch(err){
+                err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
+        }
+}

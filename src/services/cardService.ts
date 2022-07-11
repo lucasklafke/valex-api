@@ -99,3 +99,41 @@ export async function activateCard(id : number, password : string, cvv : string)
         await cardRepository.update(id, CardUpdateData)
         
 }
+
+export async function blockCard(id : number, password : string){
+        const card = await cardRepository.findById(id)
+        if(!card){
+                throw {code: 404, message: "card not found"}
+        }
+
+        const cryptr = new Cryptr('myTotallySecretKey')
+        const decryptedPassword = decryptNumber(card.password, cryptr)
+        if(decryptedPassword !== password){
+                throw {code: 400, message: "invalid password"}
+        }
+
+        const CardUpdateData = {
+                isBlocked: true,       
+                
+        }
+        await cardRepository.update(id, CardUpdateData)
+}
+
+export async function unblockCard(id : number, password : string){
+        const card = await cardRepository.findById(id)
+        if(!card){
+                throw {code: 404, message: "card not found"}
+        }
+        
+        const cryptr = new Cryptr('myTotallySecretKey')
+        const decryptedPassword = decryptNumber(card.password, cryptr)
+        if(decryptedPassword !== password){
+                throw {code: 400, message: "invalid password"}
+        }
+
+        const CardUpdateData = {
+                isBlocked: false,       
+                
+        }
+        await cardRepository.update(id, CardUpdateData)
+}

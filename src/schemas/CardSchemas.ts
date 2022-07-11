@@ -11,4 +11,8 @@ const activateCardSchema = joi.object({
         cvv: joi.string().required(),
 })
 
-export {activateCardSchema, createCardSchema}
+const blockCardSchema = joi.object({
+        id: joi.string().required(),
+        password: joi.string().length(4).required()
+})
+export {activateCardSchema, createCardSchema, blockCardSchema}

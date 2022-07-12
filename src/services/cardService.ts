@@ -68,7 +68,6 @@ export async function createCard(key : String, id:number, type: TransactionTypes
 
         const {fullName}= await employeeRepository.findById(id)
         const randomCvvNumber = faker.random.numeric(3)
-        console.log(randomCvvNumber)
 
         const employeeFormatedName = nameFormatter(fullName)
         const randomCardNumber = faker.random.numeric(11)
@@ -98,9 +97,7 @@ export async function activateCard(id : number, password : string, cvv : string)
         if(!card){
                 throw {code: 404, message: "card not found"}
         }
-        console.log(card.securityCode)
         const decryptedCvv = decryptNumber(card.securityCode, cryptr)
-        console.log("a",decryptedCvv)
         if(decryptedCvv !== cvv){
                 throw {code: 400, message: "invalid cvv"}
         }

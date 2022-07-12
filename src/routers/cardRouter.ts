@@ -7,11 +7,10 @@ import  blockOrUnblockValidator  from "../middlewares/blockOrUnblockValidator.js
 import {createCardSchema, activateCardSchema, blockCardSchema, rechargeSchema} from "../schemas/cardSchemas.js"
 
 const cardRouter = Router()
-
 cardRouter.post("/create/card",schemaValidator(createCardSchema),validateApiKey,createCard)
-cardRouter.post("/activate/card",validateCardCanBeActivated,schemaValidator(activateCardSchema),activateCard)
-cardRouter.post("/block/card",blockOrUnblockValidator("block"),schemaValidator(blockCardSchema),blockCard)
-cardRouter.post("/unblock/card",blockOrUnblockValidator("unblock"),schemaValidator(blockCardSchema),unblockCard)
+cardRouter.post("/activate/card",schemaValidator(activateCardSchema),validateCardCanBeActivated,activateCard)
+cardRouter.post("/block/card",schemaValidator(blockCardSchema),blockOrUnblockValidator("block"),blockCard)
+cardRouter.post("/unblock/card",schemaValidator(blockCardSchema),blockOrUnblockValidator("unblock"),unblockCard)
 cardRouter.post("/recharge/card",schemaValidator(rechargeSchema),validateApiKey, rechargeCard)
 cardRouter.get("/get/balance/:cardId",getBalance)
 export default cardRouter

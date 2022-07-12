@@ -1,0 +1,197 @@
+{
+	"info": {
+		"_postman_id": "f41dbb1e-acb7-473f-b366-af6679b1e52d",
+		"name": "valexCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21357981"
+	},
+	"item": [
+		{
+			"name": "Purchase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cardId\": \"10\",\n    \"password\": \"1234\",\n    \"amount\": \"50\",\n    \"businessId\": \"2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/purchase",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBalance",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Recharge",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "zadKLNx.DzvOVjQH01TumGl2urPjPQSxUbf67vs0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cardId\" : \"3\",\n    \"amount\" : \"50\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/recharge/card",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"recharge",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "zadKLNx.DzvOVjQH01TumGl2urPjPQSxUbf67vs0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"1\",\n    \"type\" : \"restaurant\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/create/card",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"create",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActivateCard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"10\",\n    \"password\": \"1234\",\n    \"cvv\": \"635\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/activate/card",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"activate",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BlockCard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"3\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/block/card",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"block",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unblockCard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"3\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/unblock/card",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"unblock",
+						"card"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

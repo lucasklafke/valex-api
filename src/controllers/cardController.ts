@@ -41,3 +41,16 @@ export async function unblockCard(req: Request, res: Response){
                 err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
         }
 }
+
+export async function rechargeCard(req: Request, res: Response){
+
+        const {cardId, amount} : {cardId : number, amount: number} = req.body
+        const company = res.locals.company
+
+        try{
+                await cardService.recharge(cardId, amount, company.id)
+                return res.status(200).send("Card recharged")
+        }catch(err){
+                err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
+        }
+}

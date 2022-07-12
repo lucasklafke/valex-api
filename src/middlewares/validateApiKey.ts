@@ -10,5 +10,6 @@ export async function validateApiKey(req : Request,res : Response,next : NextFun
         if(!company){
                 throw {code:409, message:"Invalid api key"}
         }
+        res.locals.company = company
         next()
 }

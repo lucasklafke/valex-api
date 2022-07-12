@@ -15,4 +15,9 @@ const blockCardSchema = joi.object({
         id: joi.string().required(),
         password: joi.string().length(4).required()
 })
-export {activateCardSchema, createCardSchema, blockCardSchema}
+
+const rechargeSchema = joi.object({
+        cardId: joi.string().required(),
+        amount: joi.number().min(1).required(),
+})
+export {activateCardSchema, createCardSchema, blockCardSchema, rechargeSchema}

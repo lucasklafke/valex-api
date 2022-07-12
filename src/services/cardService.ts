@@ -4,6 +4,11 @@ import * as cardRepository from "../repositories/cardRepository.js"
 import * as employeeRepository from "../repositories/employeeRepository.js"
 import { TransactionTypes } from '../repositories/cardRepository.js';
 import dayjs from "dayjs"
+import {PaymentWithBusinessName } from "../repositories/paymentRepository.js"
+import {RechargeInsertData} from "../repositories/rechargeRepository.js"
+import * as paymentRepository from "../repositories/paymentRepository.js"
+import * as rechargeRepository from "../repositories/rechargeRepository.js"
+
 function decryptNumber(number : string, cryptr : Cryptr){
         const decryptedString = cryptr.decrypt(number);
         return decryptedString
@@ -39,6 +44,16 @@ function expirationDateFormatter(date:string){
         return formatedDate
 }
 
+function calcBalance(payments : PaymentWithBusinessName[], recharges : RechargeInsertData[]){
+        let balance = 0
+        for(let i = 0; i < payments.length; i++){
+                balance -= payments[i].amount
+        }
+        for(let i = 0; i < recharges.length; i++){
+                balance += recharges[i].amount
+        }
+        return balance
+}
 
 
 export async function createCard(key : String, id:number, type: TransactionTypes, ){
@@ -117,6 +132,7 @@ export async function blockCard(id : number, password : string){
                 
         }
         await cardRepository.update(id, CardUpdateData)
+        return
 }
 
 export async function unblockCard(id : number, password : string){
@@ -136,4 +152,40 @@ export async function unblockCard(id : number, password : string){
                 
         }
         await cardRepository.update(id, CardUpdateData)
+        return
+}
+
+export async function getBalance(cardId : number){
+        const card = await cardRepository.findById(cardId)
+        if(!card){
+                throw {code: 404, message: "card not found"}
+        }
+        const payments = await paymentRepository.findByCardId(cardId)
+        const recharges = await rechargeRepository.findByCardId(cardId)
+        const balance = calcBalance(payments, recharges)
+        return balance
+}
+
+export async function recharge(cardId: number, amount : number, companyId : number){
+        const card = await cardRepository.findById(cardId)
+        if(!card){
+                throw {code: 404, message: "card not found"}
+        }
+        if(card.isBlocked){
+                throw {code: 400, message: "card is blocked"}
+        }
+        if(card.expirationDate < dayjs().format("MM-DD")){
+                throw {code: 400, message: "card is expired"}
+        }
+        const employee = await employeeRepository.findById(card.employeeId)
+        if(employee.companyId !== companyId){
+                throw {code: 400, message: "card is not from this company"}
+        }
+        const rechargeData = {
+                cardId,
+                amount,
+        }
+        await rechargeRepository.insert(rechargeData)
+        return
+
 }

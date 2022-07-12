@@ -24,6 +24,5 @@ export default function blockOrUnblockValidator(type : string){
                 throw {code:409, message:"Card expired"}
         }
         next()
-    next();
   }
 }

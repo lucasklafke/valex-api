@@ -35,7 +35,7 @@ export async function purchase(cardId : number, password : string, amount : numb
                 throw  {code:401, message: "Business type is incorrect"}
         }
         const balance = await getBalance(cardId)
-        if(balance < amount){
+        if(balance.balance < amount){
                 throw  {code:401, message: "Not enough balance"}
         }
         await paymentRepository.insert({cardId, businessId, amount})

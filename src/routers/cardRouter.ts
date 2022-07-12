@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { createCard , activateCard, blockCard, unblockCard, rechargeCard} from "../controllers/cardController.js"
+import { createCard , activateCard, blockCard, unblockCard, rechargeCard, getBalance} from "../controllers/cardController.js"
 import  schemaValidator  from "../middlewares/schemaValidator.js"
 import { validateApiKey } from "../middlewares/validateApiKey.js"
 import { validateCardCanBeActivated } from "../middlewares/validateCardCanBeActivated.js"
@@ -13,4 +13,5 @@ cardRouter.post("/activate/card",validateCardCanBeActivated,schemaValidator(acti
 cardRouter.post("/block/card",blockOrUnblockValidator("block"),schemaValidator(blockCardSchema),blockCard)
 cardRouter.post("/unblock/card",blockOrUnblockValidator("unblock"),schemaValidator(blockCardSchema),unblockCard)
 cardRouter.post("/recharge/card",schemaValidator(rechargeSchema),validateApiKey, rechargeCard)
+cardRouter.get("/get/balance",getBalance)
 export default cardRouter

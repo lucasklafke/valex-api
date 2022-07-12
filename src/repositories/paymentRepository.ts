@@ -21,7 +21,6 @@ export async function findByCardId(cardId: number) {
     `,
     [cardId]
   );
-
   return result.rows;
 }
 

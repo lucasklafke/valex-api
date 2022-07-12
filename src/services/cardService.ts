@@ -163,7 +163,7 @@ export async function getBalance(cardId : number){
         const payments = await paymentRepository.findByCardId(cardId)
         const recharges = await rechargeRepository.findByCardId(cardId)
         const balance = calcBalance(payments, recharges)
-        return balance
+        return {balance, payments, recharges}
 }
 
 export async function recharge(cardId: number, amount : number, companyId : number){

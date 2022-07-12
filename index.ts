@@ -11,5 +11,5 @@ const port = process.env.PORT || 5000
 app.use(json())
 app.use(cors())
 app.use(globalRouter)
-app.use(errorHandler)
+// app.use(errorHandler)
 app.listen(port)

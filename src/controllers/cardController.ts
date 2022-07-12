@@ -54,3 +54,21 @@ export async function rechargeCard(req: Request, res: Response){
                 err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
         }
 }
+
+export async function getBalance(req: Request, res: Response){
+        if(!req.body.cardId){
+                return res.status(400).send("CardId id is required")
+        }
+        const {cardId} : {cardId : number} = req.body
+
+        try{
+                const result = await cardService.getBalance(cardId)
+
+
+                return res.status(200).send(result)
+        }catch(err){
+                err.code ? res.status(err.code).send(err.message) : res.status(500).send("Internal server error")
+                
+
+        }
+}

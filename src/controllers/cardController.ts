@@ -56,10 +56,8 @@ export async function rechargeCard(req: Request, res: Response){
 }
 
 export async function getBalance(req: Request, res: Response){
-        if(!req.body.cardId){
-                return res.status(400).send("CardId id is required")
-        }
-        const {cardId} : {cardId : number} = req.body
+        
+        const cardId : number = Number(req.params.cardId)
 
         try{
                 const result = await cardService.getBalance(cardId)

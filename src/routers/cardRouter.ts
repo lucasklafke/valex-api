@@ -13,5 +13,5 @@ cardRouter.post("/activate/card",validateCardCanBeActivated,schemaValidator(acti
 cardRouter.post("/block/card",blockOrUnblockValidator("block"),schemaValidator(blockCardSchema),blockCard)
 cardRouter.post("/unblock/card",blockOrUnblockValidator("unblock"),schemaValidator(blockCardSchema),unblockCard)
 cardRouter.post("/recharge/card",schemaValidator(rechargeSchema),validateApiKey, rechargeCard)
-cardRouter.get("/get/balance",getBalance)
+cardRouter.get("/get/balance/:cardId",getBalance)
 export default cardRouter
